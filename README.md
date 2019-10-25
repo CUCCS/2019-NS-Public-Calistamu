@@ -19,7 +19,7 @@
 1. gateway(debian)、victim1（kali）、victim2(kali),在同一个内网内且两两可以Ping通。
 ![](images/prepare.png)
 2. python2.7.15+scapy2.4.3
-* 别的同学可以Python3,我的电脑python报错：'NoneType' object has no attribute 'haslayer'
+* 报错：'NoneType' object has no attribute 'haslayer'不是Python版本问题，是因为一开始没有判断是否为空，空的话当然没有haslayer
 
 ## 实验步骤
 
