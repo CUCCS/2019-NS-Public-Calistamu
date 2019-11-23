@@ -44,5 +44,12 @@ arpspoof -i eth0 -t 172.16.111.134 172.16.111.1
 ## 参考文献
 [arp欺骗及攻击](https://blog.csdn.net/niekai01/article/details/52214942)
 
+<<<<<<< Updated upstream
 ## 利用cookie劫持，登入被攻击者的网络账户
 [](https://www.secpulse.com/archives/6068.html)
+=======
+## 扩展：利用cookie劫持，登入被攻击者的网络账户
+安装下载firefox的插件modify headers,将Cookie粘贴复制进去，然后会出现登陆后的页面
+* 实验失败，是因为使用jw.cuc.deu.cn进行实验，管理用户会话的Token在注销后过期了，看到“过期时间那里是会话”，每一次的cookie都是新的
+![](images/cookie.png)
+>>>>>>> Stashed changes
