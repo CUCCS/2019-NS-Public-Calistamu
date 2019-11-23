@@ -45,6 +45,13 @@ arpspoof -i eth0 -t 172.16.111.134 172.16.111.1
 [arp欺骗及攻击](https://blog.csdn.net/niekai01/article/details/)
 ## 扩展：利用cookie劫持，登入被攻击者的网络账户
 安装下载firefox的插件modify headers,将Cookie粘贴复制进去，然后会出现登陆后的页面
+>cap/jw-connect.pcapng
 * 实验失败，是因为使用jw.cuc.deu.cn进行实验，管理用户会话的Token在注销后过期了，看到“过期时间那里是会话”，每一次的cookie都是新的
 ![](images/cookie.png)
-
+* 实验时出现attacker和victim都能Ping通但浏览器不能上网的情况，用以下命令查看域名解析服务器，看到都默认是gateway的ip,更改成了8.8.8.8，能ping能浏览器上网。第二天改回gateway的ip,发现既能ping也能浏览器上网。
+```
+cat /etc/resolv.conf #查看域名解析服务器
+```
+>[8.8.8.8是什么](http://www.45fan.com/a/question/554.html)  
+>[DNS改成8.8.8.8怎么样](https://blog.csdn.net/qq_14989227/article/details/78342237)  
+>[什么是DNS](https://blog.csdn.net/qq_31930499/article/details/79767330)
