@@ -1,5 +1,5 @@
 # 网络与系统渗透
-
+[参考文献：从信息收集到入侵提权](https://blog.csdn.net/m0_37268841/article/details/79798561)
 ## 实验步骤
 1. ping hack-test.com 获得网站服务器ip地址173.236.164.23
 2. 使用[sameip.org](https://www.sameip.org/ip/)根据Ip地址查找同一台服务器上服务的所有站点，但是我这里出现了500错误。因为此次是尝试，所以其他服务器上信息也没关系。
@@ -25,5 +25,8 @@ b.查看操作系统版本![](images/osversion.png)
 [nikto官方手册](https://cirt.net/nikto2-docs/)    
 [nikto快速入门](https://blog.csdn.net/freeking101/article/details/72872502)  
 ![](images/nikto.png)
-7.用web应用扫描器  
-[w3af安装下载](http://w3af.org/)  
+7. 用web应用扫描器  
+[kali上安装w3af](https://blog.csdn.net/f786548139/article/details/80604586)  
+* 打算物理机安装docker使用，虚拟机是用不了了，折腾了很久，终于虚拟机可以用了
+![](images/nosql.png)
+因此我只做到了这里，没有继续sql注入
