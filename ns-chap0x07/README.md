@@ -87,7 +87,7 @@ docker-compose:定义和运行多容器 Docker 应用程序的工具。通过 Co
 ![](images/bypass3.1-2.png)
 ![](images/bypass3.1-3.png)
 ![](images/bypass3.1-4.png)
-在结果中看到
+在结果中看到可以删除的用户在'action'中多了'deleteprofile'。因此，burpsuite更改action的值后访问新页面即可
 ###### 3.2 Stage 2: Add Business Layer Access Control.
 ###### 3.3 Stage 3: Breaking Data LayerAccess Control
 ###### 3.4 Stage 4: Add Data Layer Access Control.
