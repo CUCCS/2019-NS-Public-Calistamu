@@ -4,7 +4,7 @@
 * 了解 常见 Web 漏洞的基本原理；
 * 掌握 OWASP Top 10 及常见 Web 高危漏洞的漏洞检测、漏洞利用和漏洞修复方法；
 ## 实验要求
-- []WebGoat 7.1
+- [x]WebGoat 7.1
 - []WebGoat 8.0
 - []DVWA
 - []juicy shop
@@ -38,9 +38,12 @@ docker-compose:定义和运行多容器 Docker 应用程序的工具。通过 Co
 
 配置如图
 ![](images/platform.png)
-3. 准备配置代理，会BurpSuite的基础使用，在训练过程中熟悉使用  
-[BurpSuite实战指南](https://t0data.gitbooks.io/burpsuite/content/chapter2.html)  
+3. 准备配置代理，会BurpSuite的基础使用，在训练过程中熟悉使用。[BurpSuite实战指南](https://t0data.gitbooks.io/burpsuite/content/chapter2.html) 
+
+* 为什么设置了代理以后，不开burpsuite无法上网？[burpsuite的https代理原理](https://blog.csdn.net/write_down/article/details/78990182)
+
 4. [关于同时运行docker和burp suite虚拟机卡死的解决](https://www.jianshu.com/p/77435e67980c)
+
 ## 实验步骤
 ### WebGoat7.0.1漏洞利用
 [webgoat7.1实战指南](https://www.cnblogs.com/wuweidong/p/8677431.html)
@@ -89,6 +92,76 @@ docker-compose:定义和运行多容器 Docker 应用程序的工具。通过 Co
 ![](images/bypass3.1-4.png)
 在结果中看到可以删除的用户在'action'中多了'deleteprofile'。因此，burpsuite更改action的值后访问新页面即可
 ###### 3.2 Stage 2: Add Business Layer Access Control.
+需要修改源代码，避免stage 1中的操作。  
+火狐浏览器上直接修改，重新加载，绿勾没亮
 ###### 3.3 Stage 3: Breaking Data LayerAccess Control
+目标：拦截action为viewfile的请求，更改Id来访问其他用户的file
+进行如下更改
+![](images/bypass3.3-1.png)
+看到确实名字改了,绿勾亮起
 ###### 3.4 Stage 4: Add Data Layer Access Control.
+开发者关卡，暂搁
+#### 三、AJAX Security
+[AJAX是什么](https://developer.mozilla.org/zh-CN/docs/Web/Guide/AJAX)
+##### 1.DOM Injection
+目标：您的受害者是一个系统，需要一个激活密钥才能使用它。您的目标应该是尝试启用激活按钮。请花一些时间查看HTML源码，以了解关键验证过程的工作原理。  
+1. 无论输入什么License key，按钮都无法点击，下方都会报错'wrong license key'，一开始以为是网不好，后来发现浏览器的'网络'里没有请求的发送，burpsuite什么都没有，应该是按钮不对。检查元素发现确实是按钮不可用，删除'disabled',刷新后绿勾亮了！
+![](images/dom1.png)
+##### 2.LAB: DOM-Based cross-site scripting
+目标：看到上司的工资金额
+1. 遍历一遍任命，前端页面显示内容种类一样，正常。但提示说会有惊喜额外收获，想起了'hack-test.com'，看看后端代码。不断遍历所有人，发现关键的地方显示都差不多，原来这好像是个游戏，出现的人都是前面出现过的，记得有12个人，更改过提交的id尝试，没有列出来的是102、111、112，总之最后突然找到一个列表。
+![](images/dom2.png)
+2. 然而绿勾没有亮起，上下提示都变了.需要开发，修复Bug,暂搁。
+![](images/clientslide.png)
+##### 3.LAB: DOM-Based cross-site scripting
+目标：用图片丑化页面？
+1. 输入什么名字都没成功，上方显示了“hello,David!（输入的名字）”,看源代码找到线索。
+![](images/labdom1.png)
+原来思路错了，学习了Html dom(支持插入语句来动态修改页面)，solution给了答案.输入```<img src="上图路径"/>```
+![](images/labdom2.png)
+2. image标签警报，输入```<img src=x onerror=;;alert('XSS') />```过关
+3. iframe标签警报，输入```<iframe src="javascript:alert('XSS')"></iframe>```过程也是很艰难，输入一个字符，弹出一个框。
+4. 把提示的那一串复制粘贴进去，教我们创建一个表单。
+```Please enter your password:<BR><input type = "password"name="pass"/><button onClick="javascript:alert('I haveyour password: ' +pass.value);">Submit</button><BR><BR><BR><BR>```
+提示完成，任意输入了Key,过关
+5. 执行客户端HTML实体编码以减轻DOM XSS漏洞。在escape.js中为您提供了一种实用方法。调试器中没找到这个文件，应该是要在开发状态下后台修改DOMXSS.js，暂搁。
+* onkeyup 事件会在键盘按键被松开时发生
+##### 4.XML Injection
+目标：增加自己的奖励
+奖励有五个，'我'只有三个，如下图在浏览器上增加选项，勾选提交，过关。
+![](images/xml.png)
+##### 5.JSON Injection
+[JSON](http://www.json.org/json-zh.html)  
+目标：JSON注入攻击，让航班既没有停靠，价格还便宜。  
+浏览器上更改金额后提交，过关  
+* 也可以通过burpsuite拦截以后更改再发送请求，xml注入也是，其实都是更改request数据包中的信息
+
+![](images/JSON.png)
+* [xml、json、html、xhtml区别](https://www.jianshu.com/p/31d648e66519)要判断使用的是哪一种语言：根据本文格式。[更加详细有示例：JSON和XML的区别](https://www.cnblogs.com/SanMaoSpace/p/3139186.html)
+##### 6.Silent Transactions Attacks
+目标：尝试绕过用户的授权，并以静默方式执行交易
+检查元素，应该在.js文件中找到processData()函数，看看它是怎么处理数据的，但是前端看不到这个文件，solution里面给出了文件。
+![](images/silent1.png)
+控制台：javascript:submitData('account', 12.34)
+##### 7.Insecure Client Storage
+暂搁
+##### 8.Dangerous Use of Eval
+暂搁
+##### 9.Same Origin Policy Protection
+暂搁
+##### 四、Authentication Flaws
+###### Password Strength
+目标：得出密码被猜解的时间
+直接查看源代码，过关
+![](images/pwstrength.png)
+##### 五、Buffer Overflows
+###### Off-by-One Overflows
+目标：找出VIP在哪一个房间  
+ 先随便伪造一个身份发送请求，找到POST，send to intruder,如下设置。
+![](images/overflow1.png)
+![](images/overflow2.png)
+攻击后看到返回的VIP客户结果,刷新网页，选一个填入，过关。
+![](images/overflowresult.jpg)
+
+
 
