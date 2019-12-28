@@ -4,11 +4,11 @@
 * 了解 常见 Web 漏洞的基本原理；
 * 掌握 OWASP Top 10 及常见 Web 高危漏洞的漏洞检测、漏洞利用和漏洞修复方法；
 ## 实验要求
-- [x]WebGoat 7.1
-- []WebGoat 8.0
-- []DVWA
-- []juicy shop
-- []Vulhub
+- [x] WebGoat 7.1
+- [x] WebGoat 8.0
+- [] DVWA
+- [] juicy shop
+- [] Vulhub
 * 每个实验环境完成不少于 5 种不同漏洞类型的漏洞利用练习；
 * 可选）使用不同于官方教程中的漏洞利用方法完成目标漏洞利用练习；
 * （可选）最大化 漏洞利用效果实验；
@@ -45,7 +45,7 @@ docker-compose:定义和运行多容器 Docker 应用程序的工具。通过 Co
 4. [关于同时运行docker和burp suite虚拟机卡死的解决](https://www.jianshu.com/p/77435e67980c)
 
 ## 实验步骤
-### WebGoat7.0.1漏洞利用
+### WebGoat7.1漏洞利用
 [webgoat7.1实战指南](https://www.cnblogs.com/wuweidong/p/8677431.html)
 #### 一、Http Basics
 目标：HTTP 请求的基本操作原理  
@@ -162,6 +162,10 @@ docker-compose:定义和运行多容器 Docker 应用程序的工具。通过 Co
 ![](images/overflow2.png)
 攻击后看到返回的VIP客户结果,刷新网页，选一个填入，过关。
 ![](images/overflowresult.jpg)
+### WebGoat8.0漏洞利用
+注册---登录
+### 一、General
+#### 1.HTTP Basics
 
 
 
