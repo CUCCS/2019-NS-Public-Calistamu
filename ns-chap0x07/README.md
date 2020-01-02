@@ -202,15 +202,53 @@ update employees set salary = 1000000000 where last_name='Smith' --
 [课程学习](http://www.sqlcourse2.com/)  
 #3
 ![](images/web8-sql_introduction5.png)
-```'  union select userid,user_name,password,cookie,'5','6','7' from user_system_data --```
+```'  union select userid,user_name,password,cookie,'5','6','7' from user_system_data --```  
 #5
-[sqlmap学习手册](http://sqlmap.org/)  
-[题解](https://blog.csdn.net/u013553529/article/details/82794814)
-
+[sqlmap学习手册](http://sqlmap.org/) [题解](https://blog.csdn.net/u013553529/article/details/82794814)  
+#6 
+问卷
+#### 3.SQL Injection(mitigation)
+#5+6  
+补足语句进行查询  
+#10  
+目标：猜出webgoat-prd的ip地址
+![](images/web8-sql_mitigation.png)
+可以看到排序使用的'order by',因此利用case then来判断.构造case then：```case when (substring((select ip from servers where hostname='webgoat-prd'),1,1)=1 then id else hostname end```,转换成url编码：```(case+when+(substring((select+ip+from+servers+where+hostname%3d'webgoat-prd'),1,1)%3d1)+then+hostname+else+id+end)```
+![](images/web8-sql_mitigation1.png)
+第一个payload设置ip的位数1,2,3；第二个payload设置ip可能的值0-9
+![](images/web8-sql_mitigation2.png)
+![](images/web8-sql_mitigation3.png)
+提取规则如下
+![](images/web8-sql_mitigation4.png)
 #### 4.XXE
+[官方说明](https://www.owasp.org/index.php/XML_External_Entity_(XXE)_Processing)
+#3
+先借助[DTD](https://www.w3school.com.cn/dtd/dtd_intro.asp)参数外部实体构造
+![](images/web8-xxe.png)
+找到POST，send to repeater，进行以下设置，看到报错，先交上作业，之后再[解决](https://blog.csdn.net/u013553529/article/details/82795037)。
+![](images/web8-xxe1.png)
 ### 三、Authentication Flaws
 #### 1.Secure Passwords
 输入足够强度的密码，过关。
-#### 2.Password reset
-
 #### 3.Authentication Bypasses
+在两个参数名之后加'1'
+![](images/web8-auth_bypass.png)
+### 四、Cross-Site Scripting(XSS)
+#### 1.Cross Site Scripting
+#2  
+yes  
+#7  
+直接'purchase',stage8中有介绍  
+#10  
+提示说/WebGoat/start.mvc#lesson/CrossSiteScripting.lesson/5的route是start.mvc#lesson/,所以查看GoatRouter.js，答案：start.mvc#test/  
+#11    
+提交后控制台如下执行，然后提交返回的随机数
+![](images/web8-xss.png)
+#12  
+问卷
+### 五、Access Control Flaws
+#### 1.Insecure Direct Object References
+点击'login in'，burpsuite拦截看到信息，填入过关
+![](images/web8-insecure_login.png)
+
+
