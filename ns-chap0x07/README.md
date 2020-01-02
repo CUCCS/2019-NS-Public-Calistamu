@@ -6,8 +6,8 @@
 ## 实验要求
 - [x] WebGoat 7.1
 - [x] WebGoat 8.0
-- [] DVWA
-- [] juicy shop
+- [x] DVWA
+- [x] juicy shop
 - [] Vulhub
 * 每个实验环境完成不少于 5 种不同漏洞类型的漏洞利用练习；
 * 可选）使用不同于官方教程中的漏洞利用方法完成目标漏洞利用练习；
@@ -38,6 +38,7 @@ docker-compose:定义和运行多容器 Docker 应用程序的工具。通过 Co
 
 配置如图
 ![](images/platform.png)
+![](images/docker-ps.png)
 3. 准备配置代理，会BurpSuite的基础使用，在训练过程中熟悉使用。[BurpSuite实战指南](https://t0data.gitbooks.io/burpsuite/content/chapter2.html) 
 
 * 为什么设置了代理以后，不开burpsuite无法上网？[burpsuite的https代理原理](https://blog.csdn.net/write_down/article/details/78990182)
@@ -250,5 +251,30 @@ yes
 #### 1.Insecure Direct Object References
 点击'login in'，burpsuite拦截看到信息，填入过关
 ![](images/web8-insecure_login.png)
-
-
+### juice-shop
+1. 找到了Login,任意输入提交，过关。
+![](images/juice-login.png)
+2. 用户名输入：' or 1=1，密码任意，过关。
+![](images/juice-loginadmin.png)
+3. 输入框注入一下，过关
+![](images/juice-search.png)
+4. 查看源码找到积分榜网页并访问，过关
+![](images/juice-scoreboard.png)
+5.进入用户反馈，刷新页面看到超链接，访问，过关。
+![](images/juice-contactus.png)
+### dvwa
+默认账号密码admin/password,设计安全级别low(先完成低级找找感觉)
+* 都是先看源码再分析
+#### 一、Brute Force
+[其实是和wegoat有点像的爆破](https://blog.csdn.net/u011781521/article/details/54964926)就不给步骤了
+![](images/dvwa-brute.png)
+#### 二、Command Injection
+![](images/dvwa-command_injection.png)
+#### 三、SQL Injection
+![](images/dvwa-sql_injection.png)
+#### 四、JavaScript
+控制台执行：md5("success")得到md5,burpsuite拦截POST，更换变量值
+![](images/dvwa-javascript.png)
+#### 五、CSRF
+看到源代码中只对两次输入的密码是否相同进行了判断
+![](images/dvwa-csrf.png)
