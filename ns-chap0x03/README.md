@@ -1,39 +1,29 @@
 # HTTP正向代理服务器实验
 
-## 实验拓扑
+## 实验连通性示意图
 
 ![](images/network.jpg)
 
 ## 实验步骤
 
 1. 分别开启attacker-kali和victim-kali的apache服务，发现attacker-kali不可以访问victim-kali的apache页面，victim-kali可以访问attacker-kali的apache页面
+
 2. 正向代理设置  
   victim-kali开启apache2服务，并查看是否正常开启
-```
-service apache2 start  
+
+* service apache2 start    
 psaux | grep apache
- ```  
+
 attakcer-kali手工设置代理地址10.0.2.15，端口8888
 ![](images/proxyopen.png)
-gateway-debian安装tinyproxy  
-```
-apt-get update && apt-get install tinyproxy
-```  
-gateway-debian编辑配置文件，设置代理网段，此处为'Allow 10.0.0.0/8'   
-```
-vi /etc/tinyproxy/tinyproxy.conf
-```  
+gateway-debian安装tinyproxy  ```apt-get update && apt-get install tinyproxy```  
+gateway-debian编辑配置文件，设置代理网段，此处为'Allow 10.0.0.0/8'   ```vi /etc/tinyproxy/tinyproxy.conf```  
 ![](images/proxyset.png)  
-gateway-debian开启代理服务  
-```
-service tinyproxy start
-```
+gateway-debian开启代理服务  ```service tinyproxy start```
+
 3. attacker-kali网页分别访问172.16.111.134和172.16.111.134/calistamu,同时在attakcer-kali,gateway-debian,victim-kali进行抓包。  
 ![](images/throughproof.png)
-看到：attcker-kali网页前者访问成功，后者404错误。attacker-kali抓到的http包源地址都是10.0.2.4(attacker的ip)，目的地址都是10.0.2.15(gateway的ip)。gateway-debian有流量通过，且有详细信息可以看出是谁发给谁。victim-kali抓到的http包，源地址都是172.16.111.1(gateway的ip)，目的地址都是172.16.111.34(victim的ip)，且日志中有记录
-```
-tail -F /var/log/apache2/access.log #查看日志
-```
+* 根据上图结果：attcker-kali网页前者访问成功，后者404错误。attacker-kali抓到的http包源地址都是10.0.2.4(attacker的ip)，目的地址都是10.0.2.15(gateway的ip)。gateway-debian有流量通过，且有详细信息可以看出是谁发给谁。victim-kali抓到的http包，源地址都是172.16.111.1(gateway的ip)，目的地址都是172.16.111.34(victim的ip)，且日志中有记录```tail -F /var/log/apache2/access.log #查看日志```
 ![](images/victimlog.png)
 attacker抓到的包中看到代理名称。victim中也看到了代理名称，但可以在代理处进行设置，进行伪装。
 ![](images/throughproxy.png)
