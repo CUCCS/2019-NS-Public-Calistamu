@@ -2,12 +2,12 @@
 
 ## 实验要求
 完成以下扫描技术的编程实现
-- [x]TCP connect scan 
-- [x]TCP stealth scan
-- [x]TCP Xmas scan 
-- [x]TCP fin scan 
-- [x]TCP null scan
-- [x]UDP scan
+- [x] TCP connect scan 
+- [x] TCP stealth scan
+- [x] TCP Xmas scan 
+- [x] TCP fin scan 
+- [x] TCP null scan
+- [x] UDP scan
 
 * 上述每种扫描技术的实现测试均需要测试端口状态为：开放、关闭 和 过滤 状态时的程序执行结果
 * 提供每一次扫描测试的抓包结果并分析与课本中的扫描方法原理是否相符？如果不同，试分析原因；
@@ -110,4 +110,11 @@ apt-get install ufw
 ![](images/udpscanopen.png)
 * 可以发现一直没有任何回应，而且扫描效率很低，抓closed时需要很久才会出现ICMP包。
 * 试图nc开启53端口，没有成功，安装ufw，也没成功，理解了一遍原理，又跑了几遍，突然成功。
-
+## 实验步骤
+1. 'NoneType' object has no attribute 'haslayer'不是Python版本问题，是因为一开始没有判断是否为空，空的话当然没有haslayer
+## 参考文献
+[tcpdump学习](https://www.tcpdump.org/manpages/tcpdump.1.html)  
+[NMAP手册中端口扫描技术原理及分类学习](https://nmap.org/man/zh/man-port-scanning-basics.html)  
+[代码来源及原理学习](https://resources.infosecinstitute.com/port-scanning-using-scapy/)  
+[<font color=red>代码实现原理很重要必须懂</font>](https://c4pr1c3.github.io/cuc-ns/chap0x05/main.html)
+[nc命令学习](https://www.computerhope.com/unix/nc.htm) 
